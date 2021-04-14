@@ -1,0 +1,20 @@
+
+
+<mat-grid-list cols="5">
+  <mat-grid-tile-header>
+    <h1 style="padding-left:15px;">Users</h1>
+    <mat-divider></mat-divider>
+  </mat-grid-tile-header>
+  <mat-grid-tile
+    *ngFor="let user of users">
+    <mat-card class="user-card">
+      <mat-card-header>
+        <mat-card-title>{{ user.firstName }} {{ user.lastName }}</mat-card-title>
+        <mat-card-subtitle>{{ user.gender }} | {{ user.birthDate }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions>
+        <a [routerLink]="['/users', user.id]" mat-button>View User</a>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
