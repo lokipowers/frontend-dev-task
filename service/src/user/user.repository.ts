@@ -9,7 +9,7 @@ export async function getPage(pageable: Pageable): Promise<Page<User>> {
   const sortDir = pageable.sort.direction === Direction.ASC ? 'ASC' : 'DESC';
   const orderBy = pageable.sort.field + ' ' + sortDir;
   const sql = 'SELECT id, birth_date birthDate, first_name firstName, last_name lastName, gender, created ' +
-    'FROM `user` ORDER BY ' + orderBy + ' LIMIT ? OFFSET ?';
+    'FROM `user-add` ORDER BY ' + orderBy + ' LIMIT ? OFFSET ?';
   return db.query<User>(sql, [pageable.size, offset])
     .then(async (users) => {
       const total = await countAll();
@@ -18,13 +18,13 @@ export async function getPage(pageable: Pageable): Promise<Page<User>> {
 }
 
 function countAll(): Promise<number> {
-  const sql = 'SELECT COUNT(*) c FROM `user`';
+  const sql = 'SELECT COUNT(*) c FROM `user-add`';
   return db.query<any>(sql).then((r) => r.length === 1 ? r[0].c : null);
 }
 
 export function getById(userId: number): Promise<User | null> {
   const sql = 'SELECT id, birth_date birthDate, first_name firstName, last_name lastName, gender, created ' +
-    'FROM `user` WHERE id = ?';
+    'FROM `user-add` WHERE id = ?';
   return db.query(sql, [userId])
     .then((users: User[]) => users.length === 0 ? null : users[0]);
 }
@@ -40,7 +40,7 @@ export async function getExistingById(userId: number): Promise<User> {
 
 export async function deleteById(userId: number): Promise<User> {
   const user = await getExistingById(userId);
-  const sql = 'DELETE FROM `user` WHERE `user`.id == ?';
+  const sql = 'DELETE FROM `user-add` WHERE `user-add`.id == ?';
   return db.exec(sql, [userId])
     .then(() => user);
 }
@@ -55,13 +55,13 @@ export async function save(user: User): Promise<User> {
 }
 
 function create(user: User): Promise<User> {
-  const sql = 'INSERT INTO `user` (id, birth_date, first_name, last_name, gender, created) VALUES (?, ?, ?, ?, ?, ?)';
+  const sql = 'INSERT INTO `user-add` (id, birth_date, first_name, last_name, gender, created) VALUES (?, ?, ?, ?, ?, ?)';
   return db.exec(sql, Object.values(user))
     .then((r) => getExistingById(r.lastID));
 }
 
 function update(user: User): Promise<User> {
-  const sql = 'UPDATE `user` SET id = ?, birth_date = ?, first_name = ?, last_name = ?, gender = ?, created = ? ' +
+  const sql = 'UPDATE `user-add` SET id = ?, birth_date = ?, first_name = ?, last_name = ?, gender = ?, created = ? ' +
     'WHERE id = ?';
   return db.exec(sql, Object.values(user).concat(user.id))
     .then(() => user);

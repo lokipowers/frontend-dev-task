@@ -33,7 +33,7 @@ Steps to follow
 its methods, which are:
 
     - `GET http://localhost:8080/users`
-    To get [Users](./service/src/user/user.ts). This method supports the following optional query parameters:
+    To get [User](./service/src/user/user.ts). This method supports the following optional query parameters:
         
         * page - page number
         * size - how many users per page
