@@ -1,0 +1,32 @@
+<h1>{{ (user ? user.firstName : "New User" ) }}</h1>
+<p>
+  <mat-form-field appearance="standard">
+    <mat-label>First Name</mat-label>
+    <input matInput [value]="( user ? user.firstName : '' )">
+  </mat-form-field>
+  <mat-form-field appearance="standard">
+    <mat-label>Last Name</mat-label>
+    <input matInput [value]="( user ? user.lastName : '' )">
+  </mat-form-field>
+  <mat-form-field appearance="standard">
+    <mat-label>Gender</mat-label>
+    <input matInput [value]="( user ? user.gender : '' )">
+  </mat-form-field>
+  <mat-form-field appearance="standard">
+    <mat-label>Date of Birth</mat-label>
+    <input matInput [matDatepicker]="picker" [value]="( user ? user.birthDate : '' )">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <button *ngIf="user"
+          mat-stroked-button
+  >
+    Update
+  </button>
+  <button *ngIf="!user"
+          mat-stroked-button
+          (click)="addUser(user)">
+    Create User
+  </button>
+</p>
